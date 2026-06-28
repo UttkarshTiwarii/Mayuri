@@ -1,0 +1,91 @@
+/* =====================
+   MAYURI GLOBAL — :root & body
+   ===================== */
+
+:root {
+  /* ... your existing variables ... */
+
+  font-size: 18px;
+  line-height: 1.5;
+  letter-spacing: 0.18px;
+  color: var(--text);
+  background: var(--cream);
+  font-family: var(--sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Desktop / laptop */
+@media (max-width: 1024px) {
+  :root {
+    font-size: 16px;
+    --header-h: 72px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  :root {
+    font-size: 15px;
+    --header-h: 64px;
+  }
+}
+
+/* Large mobile */
+@media (max-width: 480px) {
+  :root {
+    font-size: 14px;
+    --header-h: 58px;
+  }
+}
+
+/* Small mobile */
+@media (max-width: 360px) {
+  :root {
+    font-size: 13px;
+    --header-h: 54px;
+  }
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--cream);
+  color: var(--text);
+  font-family: var(--sans);
+}
+
+/* =====================
+   CONTAINER — responsive gutters
+   ===================== */
+
+.container {
+  width: min(var(--container), calc(100% - 48px)); /* desktop */
+  margin-inline: auto;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    width: min(var(--container), calc(100% - 40px));
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: min(var(--container), calc(100% - 28px));
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: min(var(--container), calc(100% - 20px));
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    width: min(var(--container), calc(100% - 16px));
+  }
+}
