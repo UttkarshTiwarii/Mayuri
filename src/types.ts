@@ -6,3 +6,8 @@ export type CartItem = Product & {
   selectedSize: string;
   selectedImageUrl: string;
 };
+
+export type WishlistItem = Product & {
+  selectedSize: string;
+  selectedImageUrl: string;
+};

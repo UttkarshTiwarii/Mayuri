@@ -5,6 +5,14 @@ import pinkBridalLehnga from "../assets/PINK Bridel Lehnga.webp";
 import redGreyBridalLehnga from "../assets/Red & Grey Bridal Lehnga.webp";
 import yellowKurtiSet from "../assets/Yellow Kurti Set.webp";
 
+export type ProductSize = "XS" | "S" | "M" | "L" | "XL" | "XXL";
+export type ProductOccasion =
+  | "Bridal"
+  | "Festive"
+  | "Casual"
+  | "Office"
+  | "Party";
+
 export type Product = {
   id: number;
   name: string;
@@ -18,6 +26,8 @@ export type Product = {
   imageUrl: string;
   images: string[];
   description: string;
+  sizes: ProductSize[];
+  occasion: ProductOccasion;
 };
 
 const withAssetImages = (image: string) => [image];
@@ -25,10 +35,10 @@ const withAssetImages = (image: string) => [image];
 export const products: Product[] = [
   {
     id: 1,
-    name: "Peacock Dreams Silk Saree",
+    name: "Baby Pink Chikankari Saree",
     category: "Sarees",
-    price: 8499,
-    oldPrice: 12999,
+    price: 2499,
+    oldPrice: 5999,
     badge: "new",
     rating: 4.9,
     reviews: 128,
@@ -38,13 +48,15 @@ export const products: Product[] = [
     images: withAssetImages(babyPinkChikankariSaree),
     description:
       "Add your product description, fabric details, care notes, and styling information here.",
+    sizes: ["XS", "S", "M", "L", "XL"],
+    occasion: "Casual",
   },
   {
     id: 2,
-    name: "Iridescent Anarkali Gown",
+    name: "Lavender Sequin Lehnga",
     category: "Gowns",
-    price: 14999,
-    oldPrice: 19999,
+    price: 5999,
+    oldPrice: 9999,
     badge: "bestseller",
     rating: 4.8,
     reviews: 94,
@@ -54,12 +66,14 @@ export const products: Product[] = [
     images: withAssetImages(lavenderSequinLehnga),
     description:
       "Add your product description, fabric details, care notes, and styling information here.",
+    sizes: ["S", "M", "L", "XL"],
+    occasion: "Festive",
   },
   {
     id: 3,
-    name: "Emerald Embroidered Lehenga",
+    name: "Pink Bridal Lehenga",
     category: "Lehengas",
-    price: 24999,
+    price: 8999,
     oldPrice: null,
     badge: "new",
     rating: 5,
@@ -70,13 +84,15 @@ export const products: Product[] = [
     images: withAssetImages(pinkBridalLehnga),
     description:
       "Add your product description, fabric details, care notes, and styling information here.",
+    sizes: ["XS", "S", "M", "L", "XL"],
+    occasion: "Bridal",
   },
   {
     id: 4,
-    name: "Turquoise Block-Print Kurta Set",
+    name: "Yellow Kurti Set",
     category: "Kurtas",
-    price: 3299,
-    oldPrice: 4999,
+    price: 1299,
+    oldPrice: 3999,
     badge: "sale",
     rating: 4.7,
     reviews: 216,
@@ -86,13 +102,15 @@ export const products: Product[] = [
     images: withAssetImages(yellowKurtiSet),
     description:
       "Add your product description, fabric details, care notes, and styling information here.",
+    sizes: ["XS", "S", "M", "L"],
+    occasion: "Office",
   },
   {
     id: 5,
-    name: "Royal Blue Chanderi Saree",
+    name: "Red Grey Bridal Lehenga",
     category: "Sarees",
-    price: 5999,
-    oldPrice: 8999,
+    price: 9999,
+    oldPrice: 14999,
     badge: null,
     rating: 4.6,
     reviews: 87,
@@ -102,12 +120,14 @@ export const products: Product[] = [
     images: withAssetImages(redGreyBridalLehnga),
     description:
       "Add your product description, fabric details, care notes, and styling information here.",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    occasion: "Bridal",
   },
   {
     id: 6,
-    name: "Gold Zari Banarasi Saree",
+    name: "Maroon Banarasi Silk Saree",
     category: "Sarees",
-    price: 18999,
+    price: 3999,
     oldPrice: null,
     badge: "bestseller",
     rating: 4.9,
@@ -118,6 +138,8 @@ export const products: Product[] = [
     images: withAssetImages(maroonBanarasiSilkSaree),
     description:
       "Add your product description, fabric details, care notes, and styling information here.",
+    sizes: ["XS", "S", "M", "L", "XL"],
+    occasion: "Festive",
   },
   {
     id: 7,
@@ -134,6 +156,8 @@ export const products: Product[] = [
     images: withAssetImages(pinkBridalLehnga),
     description:
       "Add your product description, fabric details, care notes, and styling information here.",
+    sizes: ["S", "M", "L", "XL", "XXL"],
+    occasion: "Party",
   },
   {
     id: 8,
@@ -150,6 +174,8 @@ export const products: Product[] = [
     images: withAssetImages(lavenderSequinLehnga),
     description:
       "Add your product description, fabric details, care notes, and styling information here.",
+    sizes: ["XS", "S", "M"],
+    occasion: "Casual",
   },
 ];
 

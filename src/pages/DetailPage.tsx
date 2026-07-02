@@ -11,7 +11,7 @@ type DetailPageProps = {
   products: Product[];
   onPageChange: (page: PageName) => void;
   onAddToCart: (id: number, selectedSize?: string, selectedImageUrl?: string) => void;
-  onAddToWishlist: (id: number) => void;
+  onAddToWishlist: (id: number, selectedSize?: string, selectedImageUrl?: string) => void;
   onOpenDetail: (id: number) => void;
   onOpenCart: () => void;
 };
@@ -150,7 +150,12 @@ export default function DetailPage({
                 </button>
                 <button
                   className="detail-wish"
-                  onClick={() => onAddToWishlist(product.id)}
+                  onClick={() => {
+                    const sizeToUse = selectedSize || "M";
+                    const selectedImageUrl =
+                      product.images[selectedImgIndex] ?? product.images[0];
+                    onAddToWishlist(product.id, sizeToUse, selectedImageUrl);
+                  }}
                 >
                   <HeartIcon />
                 </button>

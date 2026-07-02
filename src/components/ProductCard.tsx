@@ -6,7 +6,7 @@ type ProductCardProps = {
   product: Product;
   onOpenDetail: (id: number) => void;
   onAddToCart: (id: number, selectedSize?: string, selectedImageUrl?: string) => void;
-  onAddToWishlist: (id: number) => void;
+  onAddToWishlist: (id: number, selectedSize?: string, selectedImageUrl?: string) => void;
 };
 
 
@@ -29,7 +29,17 @@ export default function ProductCard({ product, onOpenDetail, onAddToCart, onAddT
           />
         </div>
         <div className="product-actions" onClick={(event) => event.stopPropagation()}>
-          <button className="action-btn" onClick={() => onAddToWishlist(product.id)} title="Wishlist"><HeartIcon /></button>
+          <button
+            className="action-btn"
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddToWishlist(product.id, "M", product.imageUrl);
+            }}
+            title="Wishlist"
+          >
+            <HeartIcon />
+          </button>
+
           <button className="action-btn" onClick={() => onOpenDetail(product.id)} title="Quick View">
             <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
           </button>

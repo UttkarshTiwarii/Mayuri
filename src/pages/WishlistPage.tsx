@@ -1,29 +1,59 @@
-import type { Product } from "../data/products";
-import type { PageName } from "../types";
+import type { WishlistItem, PageName } from "../types";
 import { ArrowIcon, HeartIcon } from "../components/Icons";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/Footer";
+import WishlistRemoveButton from "../components/WishlistRemoveButton";
 
 type WishlistPageProps = {
-  wishlist: Product[];
+  wishlist: WishlistItem[];
+
   onPageChange: (page: PageName) => void;
   onScrollToSection: (id: string) => void;
   onOpenDetail: (id: number) => void;
   onAddToCart: (id: number) => void;
   onAddToWishlist: (id: number) => void;
+  onRemoveFromWishlist: (id: number, selectedSize: string, selectedImageUrl: string) => void;
 };
 
-export default function WishlistPage({ wishlist, onPageChange, onScrollToSection, onOpenDetail, onAddToCart, onAddToWishlist }: WishlistPageProps) {
+export default function WishlistPage({
+  wishlist,
+  onPageChange,
+  onScrollToSection,
+  onOpenDetail,
+  onAddToCart,
+  onAddToWishlist,
+  onRemoveFromWishlist,
+}: WishlistPageProps) {
   return (
     <div className="page active" id="wishlist-page">
       <div className="page-hero">
         <h2>My Wishlist</h2>
         <p>Your curated collection of desire</p>
-        <div className="breadcrumb"><a href="#" onClick={(e) => { e.preventDefault(); onPageChange("home"); }}>Home</a><span>/</span><span>Wishlist</span></div>
+        <div className="breadcrumb">
+          <a href="#" onClick={(e) => {
+            e.preventDefault();
+            onPageChange("home");
+          }}>Home</a>
+          <span>/</span>
+          <span>Wishlist</span>
+        </div>
       </div>
       <div className="container" style={{ padding: "48px 24px" }}>
         <div className="products-grid" id="wishlist-grid">
-          {wishlist.map((product) => <ProductCard key={product.id} product={product} onOpenDetail={onOpenDetail} onAddToCart={onAddToCart} onAddToWishlist={onAddToWishlist} />)}
+          {wishlist.map((product) => (
+            <div key={`${product.id}-${product.selectedSize}-${product.selectedImageUrl}`} style={{ position: "relative" }}>
+              <ProductCard
+                product={product}
+                onOpenDetail={onOpenDetail}
+                onAddToCart={onAddToCart}
+                onAddToWishlist={onAddToWishlist}
+              />
+              <WishlistRemoveButton
+                onRemove={() => onRemoveFromWishlist(product.id, product.selectedSize, product.selectedImageUrl)}
+              />
+            </div>
+          ))}
+
         </div>
         {wishlist.length === 0 && (
           <div id="wishlist-empty" style={{ textAlign: "center", padding: "80px 20px" }}>
@@ -38,3 +68,4 @@ export default function WishlistPage({ wishlist, onPageChange, onScrollToSection
     </div>
   );
 }
+

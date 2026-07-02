@@ -4,8 +4,9 @@ import Navbar from "./components/Navbar";
 import CartDrawer from "./components/CartDrawer";
 import Toast from "./components/Toast";
 import { products } from "./data/products";
-import type { Product } from "./data/products";
-import type { CartItem, PageName } from "./types";
+import type { CartItem, PageName, WishlistItem } from "./types";
+
+
 import HomePage from "./pages/HomePage";
 import ShopPage from "./pages/ShopPage";
 import DetailPage from "./pages/DetailPage";
@@ -17,7 +18,8 @@ function App() {
   const [selectedProductId, setSelectedProductId] = useState(products[0].id);
   const [cartOpen, setCartOpen] = useState(false);
   const [cart, setCart] = useState<CartItem[]>([]);
-  const [wishlist, setWishlist] = useState<Product[]>([]);
+  const [wishlist, setWishlist] = useState<WishlistItem[]>([]);
+
   const [toast, setToast] = useState({ message: "Added to cart!", visible: false });
 
   const selectedProduct = useMemo(() => products.find((product) => product.id === selectedProductId) ?? products[0], [selectedProductId]);
@@ -65,6 +67,12 @@ function App() {
       return [...items, { ...product, qty: 1, selectedSize, selectedImageUrl }];
     });
 
+    // If user adds from wishlist, remove it from wishlist.
+    setWishlist((items) =>
+      items.filter(
+        (w) => !(w.id === id && w.selectedSize === selectedSize && w.selectedImageUrl === selectedImageUrl)
+      )
+    );
     showToast("Added to your bag ✨");
   };
 
@@ -72,16 +80,19 @@ function App() {
     setCart((items) => items.map((item) => item.id === id ? { ...item, qty: item.qty + delta } : item).filter((item) => item.qty > 0));
   };
 
-  const addToWishlist = (id: number) => {
+  const addToWishlist = (id: number, selectedSize: string = "M", selectedImageUrl: string = products.find((p) => p.id === id)?.imageUrl ?? "") => {
     const product = products.find((item) => item.id === id);
     if (!product) return;
+
     setWishlist((items) => {
-      if (items.some((item) => item.id === id)) {
+      // Wishlist becomes size-specific
+      const existing = items.find((item) => item.id === id && item.selectedSize === selectedSize && item.selectedImageUrl === selectedImageUrl);
+      if (existing) {
         showToast("Already in wishlist!");
         return items;
       }
       showToast("Saved to wishlist ♥");
-      return [...items, product];
+      return [...items, { ...product, selectedSize, selectedImageUrl }];
     });
   };
 
@@ -93,7 +104,25 @@ function App() {
       {page === "home" && <HomePage products={products} onPageChange={changePage} onScrollToSection={scrollToSection} onOpenDetail={openDetail} onAddToCart={addToCart} onAddToWishlist={addToWishlist} onSubscribe={(email) => showToast(email.includes("@") ? "Thank you for subscribing! 💌" : "Please enter a valid email address")} />}
       {page === "shop" && <ShopPage products={products} onPageChange={changePage} onOpenDetail={openDetail} onAddToCart={addToCart} onAddToWishlist={addToWishlist} />}
       {page === "detail" && <DetailPage product={selectedProduct} products={products} onPageChange={changePage} onAddToCart={addToCart} onAddToWishlist={addToWishlist} onOpenDetail={openDetail} onOpenCart={() => setCartOpen(true)} />}
-      {page === "wishlist" && <WishlistPage wishlist={wishlist} onPageChange={changePage} onScrollToSection={scrollToSection} onOpenDetail={openDetail} onAddToCart={addToCart} onAddToWishlist={addToWishlist} />}
+      {page === "wishlist" && (
+        <WishlistPage
+          wishlist={wishlist}
+          onPageChange={changePage}
+          onScrollToSection={scrollToSection}
+          onOpenDetail={openDetail}
+          onAddToCart={addToCart}
+          onAddToWishlist={addToWishlist}
+          onRemoveFromWishlist={(id, selectedSize, selectedImageUrl) => {
+            setWishlist((items) =>
+              items.filter(
+                (w) => !(w.id === id && w.selectedSize === selectedSize && w.selectedImageUrl === selectedImageUrl)
+              )
+            );
+            showToast("Removed from wishlist");
+          }}
+        />
+      )}
+
       {page === "auth" && <AuthPage onPageChange={changePage} onToast={showToast} />}
     </>
   );

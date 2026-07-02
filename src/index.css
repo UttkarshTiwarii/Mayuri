@@ -1,6 +1,4 @@
-/* =====================
-   MAYURI GLOBAL — :root & body
-   ===================== */
+
 
 :root {
   /* ... your existing variables ... */
@@ -51,7 +49,6 @@
 
 body {
   margin: 0;
-  min-width: 320px;
   background: var(--cream);
   color: var(--text);
   font-family: var(--sans);
@@ -62,7 +59,7 @@ body {
    ===================== */
 
 .container {
-  width: min(var(--container), calc(100% - 48px)); /* desktop */
+  /* width: min(var(--container), calc(100% - 48px)); desktop */
   margin-inline: auto;
 }
 
