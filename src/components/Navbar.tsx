@@ -41,7 +41,7 @@ export default function Navbar({ cartCount, onPageChange, onScrollToSection, onO
             <li><a href="#" onClick={(e) => { e.preventDefault(); go("home"); }}>Home</a></li>
             <li><a href="#" onClick={(e) => { e.preventDefault(); go("shop"); }}>Shop</a></li>
             <li><a href="#" onClick={(e) => { e.preventDefault(); navHomeSection("categories"); }}>Categories</a></li>
-            <li><a href="#" onClick={(e) => { e.preventDefault(); navHomeSection("new-arrivals"); }}>New Arrivals</a></li>
+            {/* <li><a href="#" onClick={(e) => { e.preventDefault(); navHomeSection("new-arrivals"); }}>New Arrivals</a></li> */}
             <li><a href="#" onClick={(e) => { e.preventDefault(); navHomeSection("bestsellers"); }}>Best Sellers</a></li>
           </ul>
           <div className="nav-actions">
@@ -60,11 +60,12 @@ export default function Navbar({ cartCount, onPageChange, onScrollToSection, onO
         <ul>
           <li><a href="#" onClick={(e) => { e.preventDefault(); go("home"); }}>Home</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); go("shop"); }}>Shop</a></li>
+          <li><a href="#" onClick={(e) => { e.preventDefault(); go("wishlist"); }}>Wishlist</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); navHomeSection("categories"); }}>Categories</a></li>
-          <li><a href="#" onClick={(e) => { e.preventDefault(); navHomeSection("new-arrivals"); }}>New Arrivals</a></li>
+          {/* <li><a href="#" onClick={(e) => { e.preventDefault(); navHomeSection("new-arrivals"); }}>New Arrivals</a></li> */}
           <li><a href="#" onClick={(e) => { e.preventDefault(); navHomeSection("bestsellers"); }}>Best Sellers</a></li>
           <li><a href="#" onClick={(e) => { e.preventDefault(); go("auth"); }}>Account</a></li>
-          <li><a href="#" onClick={(e) => { e.preventDefault(); go("wishlist"); }}>Wishlist</a></li>
+          
         </ul>
       </div>
     </>

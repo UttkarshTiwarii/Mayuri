@@ -532,6 +532,58 @@ img {
   fill: none;
   stroke-width: 1.5;
 }
+
+/* Tablet and below */
+@media (max-width: 992px) {
+  .action-btn {
+    width: 34px;
+    height: 34px;
+  }
+  .action-btn svg {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+/* Mobile devices */
+@media (max-width: 786px) {
+  .product-actions {
+    opacity: 1;
+    transform: translateX(0);
+    top: 8px;
+    right: 8px;
+    gap: 6px;
+  }
+  
+  .action-btn {
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    color: black;
+  }
+  .action-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .product-actions {
+    top: 6px;
+    right: 6px;
+    gap: 5px;
+  }
+  .action-btn {
+    width: 30px;
+    height: 30px;
+  }
+  .action-btn svg {
+    width: 13px;
+    height: 13px;
+  }
+}
+
 .product-badge {
   position: absolute;
   top: 12px;
@@ -960,7 +1012,23 @@ img {
 }
 @media (max-width: 500px) {
   .footer-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "brand brand"
+      "col1 col2";
+  }
+
+  /* Layout: brand on top (full width), remaining 3 columns stacked underneath */
+  .footer-brand {
+    grid-area: brand;
+  }
+
+  /* Force all footer columns (Quick Links, Support, Contact) to span full width
+     so they appear as a single grouped “3fr” area underneath the brand. */
+  .footer-grid > :nth-child(2),
+  .footer-grid > :nth-child(3),
+  .footer-grid > :nth-child(4) {
+    grid-column: 3fr;
   }
 }
 
@@ -1355,6 +1423,29 @@ img {
   text-decoration: none;
 }
 
+.wishlist-remove {
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border-top: 1px solid rgba(13, 115, 119, 0.08);
+  background: transparent;
+  font-family: "Jost", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--teal);
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+.wishlist-remove:hover {
+  background: var(--teal);
+}
 /* ─────────────────────────────────────────────────
    AUTH
 ───────────────────────────────────────────────── */
@@ -1557,19 +1648,30 @@ img {
   top: 96px;
 }
 .detail-main-img {
-  border-radius: var(--radius-xl);
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/4;
+  border-radius: var(--radius-lg);
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
   aspect-ratio: 3/4;
   background: linear-gradient(
     135deg,
     rgba(13, 115, 119, 0.06),
     rgba(26, 58, 107, 0.04)
   );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
 }
+
+@media (max-width: 786px) {
+  .detail-imgs {
+    position: relative;
+    top: 0;
+  }
+}
+
 .detail-thumbs {
   display: flex;
   gap: 10px;
@@ -1784,11 +1886,156 @@ img {
   height: fit-content;
   border: 1px solid rgba(13, 115, 119, 0.08);
 }
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .shop-sidebar {
     display: none;
   }
 }
+
+/* ─────────────────────────────────────────────────
+   SHOP: MOBILE FILTER
+───────────────────────────────────────────────── */
+.mobile-filter-btn {
+  display: none;
+  padding: 10px 16px;
+  border: 1.5px solid rgba(13, 115, 119, 0.15);
+  border-radius: var(--radius-xl);
+  background: var(--white);
+  color: var(--teal);
+  font-family: "Jost", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.mobile-filter-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 46, 0.5);
+  z-index: 1050;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.mobile-filter-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-filter-panel {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1060;
+  background: var(--cream);
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  border: 1px solid rgba(13, 115, 119, 0.1);
+  transform: translateY(110%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: min(82vh, 720px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  pointer-events: none;
+}
+.mobile-filter-panel.open {
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.mobile-filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 18px 12px;
+  border-bottom: 1px solid rgba(13, 115, 119, 0.08);
+}
+.mobile-filter-title {
+  font-family: "Cormorant Garamond", serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+.mobile-filter-close {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(13, 115, 119, 0.15);
+  background: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 16px;
+  color: black;
+}
+.mobile-filter-close:hover {
+  background: rgba(13, 115, 119, 0.06);
+}
+
+.mobile-filter-body {
+  overflow-y: auto;
+  padding: 14px 18px 12px;
+}
+
+.mobile-filter-footer {
+  padding: 14px 18px 18px;
+  border-top: 1px solid rgba(13, 115, 119, 0.08);
+  background: rgba(242, 237, 224, 0.85);
+}
+
+.mobile-filter-apply {
+  width: 100%;
+  justify-content: center;
+}
+
+.clear-filters-btn {
+  width: 100%;
+  padding: 11px;
+  border: none;
+  border: 1px solid rgba(13, 115, 119, 0.08);
+  background: transparent;
+  font-family: "Jost", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--teal);
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border-radius: var(--radius-xl);
+}
+
+@media (max-width: 768px) {
+  .mobile-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Ensure the panel is only interactive/visible on small screens */
+  .mobile-filter-overlay {
+    display: block;
+  }
+  .mobile-filter-panel {
+    display: flex;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-filter-btn,
+  .mobile-filter-overlay,
+  .mobile-filter-panel {
+    display: none !important;
+  }
+}
+
 .filter-section {
   margin-bottom: 28px;
   padding-bottom: 28px;
@@ -1982,7 +2229,13 @@ img {
 
 .btn-primary:hover {
   background: var(--teal-dark);
-  transform: translateY(-1px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover,
+  .btn-outline:hover {
+    transform: translateY(-1px);
+  }
 }
 
 .btn-outline {
@@ -1994,7 +2247,6 @@ img {
 .btn-outline:hover {
   background: rgba(13, 115, 119, 0.06);
   border-color: var(--teal);
-  transform: translateY(-1px);
 }
 
 .btn-primary:focus-visible,

@@ -1,8 +1,10 @@
 import { useState } from "react";
 import type { Product } from "../data/products";
 import type { PageName } from "../types";
+import type { ProductSize } from "../data/products";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/Footer";
+
 
 type ShopPageProps = {
   products: Product[];
@@ -28,7 +30,7 @@ export default function ShopPage({
   const filteredProducts = products
     .filter((p) => (selectedCategory === "All" ? true : p.category === selectedCategory))
     .filter((p) => p.price <= maxPrice)
-    .filter((p) => (selectedSize === "All" ? true : p.sizes.includes(selectedSize as any)))
+    .filter((p) => (selectedSize === "All" ? true : p.sizes.includes(selectedSize as unknown as ProductSize)))
     .filter((p) => (selectedOccasion === "All" ? true : p.occasion === selectedOccasion));
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -68,6 +70,8 @@ export default function ShopPage({
   });
 
 
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
   return (
     <div className="page active" id="shop-page">
       <div className="page-hero">
@@ -88,6 +92,101 @@ export default function ShopPage({
         </div>
       </div>
       <div className="container">
+        <div className={`mobile-filter-overlay ${isFilterOpen ? "open" : ""}`}
+          onClick={() => setIsFilterOpen(false)}
+          aria-hidden={!isFilterOpen}
+        />
+        <div className={`mobile-filter-panel ${isFilterOpen ? "open" : ""}`}>
+          <div className="mobile-filter-header">
+            <div className="mobile-filter-title">Filters</div>
+            <button
+              type="button"
+              className="mobile-filter-close"
+              onClick={() => setIsFilterOpen(false)}
+            >
+              ✕
+            </button>
+          </div>
+
+          <div className="mobile-filter-body" role="dialog" aria-modal="true">
+            <FilterSection
+              title="Category"
+              tags={[
+                "All",
+                "Sarees",
+                "Lehengas",
+                "Kurtas",
+                "Gowns",
+                "Accessories",
+              ]}
+              active={selectedCategory}
+              onSelected={(tag) => {
+                setSelectedCategory(tag);
+              }}
+            />
+
+            <div className="filter-section">
+              <div className="filter-title">Price Range</div>
+              <div className="price-range">
+                <input
+                  type="range"
+                  min="500"
+                  max="50000"
+                  value={maxPrice}
+                  onChange={(e) => setMaxPrice(Number(e.target.value))}
+                />
+                <div className="price-range-vals">
+                  <span>₹500</span>
+                  <span id="price-max">₹{maxPrice.toLocaleString("en-IN")}</span>
+                </div>
+              </div>
+            </div>
+
+            <FilterSection
+              title="Size"
+              tags={["XS", "S", "M", "L", "XL", "XXL"]}
+              active={selectedSize}
+              onSelected={(tag) => {
+                setSelectedSize(tag);
+              }}
+            />
+
+            <FilterSection
+              title="Occasion"
+              tags={["Bridal", "Festive", "Casual", "Office", "Party"]}
+              active={selectedOccasion}
+              onSelected={(tag) => {
+                setSelectedOccasion(tag);
+              }}
+            />
+
+            <div className="filter-section">
+              <button
+                type="button"
+                className="clear-filters-btn"
+                onClick={() => {
+                  setSelectedCategory("All");
+                  setSelectedSize("All");
+                  setSelectedOccasion("All");
+                  setMaxPrice(25000);
+                }}
+              >
+                Clear Filters
+              </button>
+            </div>
+          </div>
+
+          <div className="mobile-filter-footer">
+            <button
+              type="button"
+              className="btn-primary mobile-filter-apply"
+              onClick={() => setIsFilterOpen(false)}
+            >
+              View Results
+            </button>
+          </div>
+        </div>
+
         <div className="shop-layout">
           <aside className="shop-sidebar">
             <FilterSection
@@ -152,6 +251,13 @@ export default function ShopPage({
 
           <div>
             <div className="shop-header">
+              <button
+                type="button"
+                className="mobile-filter-btn"
+                onClick={() => setIsFilterOpen(true)}
+              >
+                Filter
+              </button>
               <p className="shop-count">
                 Showing <strong>{sortedProducts.length}</strong> of <strong>{products.length}</strong> products
               </p>
