@@ -2467,15 +2467,31 @@ img {
     transform 0.8s ease;
 }
 
+/* Default to visible to avoid mobile-only “blank hero” when JS/hydration is delayed */
+.hero-content,
+.hero-img-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Optional entrance animation: only apply hidden state when heroLoaded is NOT set */
+.hero-content:not(.hero-loaded) {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: hero-failsafe-reveal 900ms ease forwards;
+  animation-delay: 350ms;
+}
+
+@keyframes hero-failsafe-reveal {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .hero-text-swapping {
   opacity: 1;
   transform: none;
-}
-
-.hero-content:not(.hero-text-swapping) {
-  /* allow entrance animation to work */
-  opacity: 0;
-  transform: translateY(16px);
 }
 
 .hero-img-swap .hero-img-placeholder {
