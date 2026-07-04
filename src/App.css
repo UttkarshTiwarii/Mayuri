@@ -308,7 +308,7 @@ img {
   display: flex;
   gap: 0;
   white-space: nowrap;
-  animation: ticker 30s linear infinite;
+  animation: ticker 10s linear infinite;
 }
 .ticker-item {
   display: inline-flex;
@@ -554,7 +554,7 @@ img {
     right: 8px;
     gap: 6px;
   }
-  
+
   .action-btn {
     width: 32px;
     height: 32px;

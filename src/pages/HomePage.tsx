@@ -142,7 +142,7 @@ function ProductSection({
 
 function Ticker() {
   const items = [
-    "Free shipping on orders above ₹999",
+    "Free shipping on orders above ₹2999",
     "New peacock collection — now live",
     "Handcrafted luxury fabrics",
     "Easy 7-day returns",
