@@ -1681,8 +1681,7 @@ img {
 .thumb.active {
   border-color: var(--teal);
 }
-.detail-info {
-}
+
 .detail-cat {
   font-size: 11px;
   letter-spacing: 2.5px;
@@ -2447,8 +2446,8 @@ img {
 ───────────────────────────────────────────────── */
 .hero-content {
   position: relative;
-  opacity: 0;
-  transform: translateY(16px);
+  opacity: 1;
+  transform: none;
 
   will-change: opacity, transform;
   backface-visibility: hidden;
@@ -2467,7 +2466,6 @@ img {
     opacity 0.8s ease,
     transform 0.8s ease;
 }
-
 
 .hero-text-swapping {
   opacity: 1;
@@ -2513,4 +2511,3 @@ img {
   opacity: 1;
   transform: none;
 }
-
