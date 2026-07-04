@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+
 import type { Product } from "../data/products";
 import type { PageName } from "../types";
 import { ArrowIcon, StarIcon } from "../components/Icons";
@@ -12,6 +13,9 @@ type HeroProps = {
 export default function Hero(props: HeroProps) {
   const heroProducts = useMemo(() => props.products.slice(0, 5), [props.products]);
 
+  const [heroLoaded, setHeroLoaded] = useState(false);
+
+
   const [activeHeroIndex, setActiveHeroIndex] = useState(0);
 
   useEffect(() => {
@@ -24,8 +28,13 @@ export default function Hero(props: HeroProps) {
     return () => window.clearInterval(timer);
   }, [heroProducts.length]);
 
+  useEffect(() => {
+    setHeroLoaded(true);
+  }, []);
+
   // Preload the first hero image for faster initial render.
   useEffect(() => {
+
     const first = heroProducts[0];
     if (!first?.images?.[0]) return;
     const img = new Image();
@@ -78,7 +87,8 @@ export default function Hero(props: HeroProps) {
 
         <div className="container hero-container">
           <div className="hero-content-col">
-            <div className="hero-content">
+            <div className={`hero-content ${heroLoaded ? "hero-loaded" : ""}`}>
+
               <div className="hero-eyebrow">
                 <span className="eyebrow-line"></span>
                 <span className="eyebrow-text">Featured Pick</span>
@@ -146,7 +156,8 @@ export default function Hero(props: HeroProps) {
 
           <div className="hero-visual">
             <div className="hero-image-wrap">
-              <div className="hero-img-card">
+              <div className={`hero-img-card ${heroLoaded ? "hero-loaded" : ""}`}>
+
                 <div className="hero-img-placeholder">
                   {activeHeroProduct && (
                     <img

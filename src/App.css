@@ -1,15 +1,3 @@
-/* ── SCROLLBAR ──
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--cream-dark);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--teal);
-  border-radius: 3px;
-} */
-
 /* ── UTILS ── */
 .container {
   max-width: 1200px;
@@ -2131,7 +2119,6 @@ img {
   align-items: center;
 }
 
-/* Decorative background art — purely visual, hidden from assistive tech */
 .hero-bg {
   position: absolute;
   inset: 80px 60px auto -40px;
@@ -2446,13 +2433,12 @@ img {
     transform: none;
   }
 
-  /* Hero swap animations */
-  .hero-text-swapping,
-  .hero-img-current-out,
-  .hero-img-next-in {
+  /* Hero entrance animation */
+  .hero-content,
+  .hero-img-card {
     transition: none !important;
-    transform: none !important;
     opacity: 1 !important;
+    transform: translateY(0) !important;
   }
 }
 
@@ -2460,25 +2446,38 @@ img {
    HERO SWAP (no transitions)
 ───────────────────────────────────────────────── */
 .hero-content {
-  /* removed transition for hero swap */
-  will-change: auto;
+  position: relative;
+  opacity: 0;
+  transform: translateY(16px);
+
+  will-change: opacity, transform;
   backface-visibility: hidden;
 }
 
-/* Keep states immediate (no fading/moving) */
+/* Entrance animation trigger */
+.hero-loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animate both text + image together */
+.hero-content,
+.hero-img-card {
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s ease;
+}
+
+
 .hero-text-swapping {
   opacity: 1;
   transform: none;
 }
 
 .hero-content:not(.hero-text-swapping) {
-  opacity: 1;
-  transform: none;
-}
-
-.hero-loaded {
-  opacity: 1;
-  transform: none;
+  /* allow entrance animation to work */
+  opacity: 0;
+  transform: translateY(16px);
 }
 
 .hero-img-swap .hero-img-placeholder {
@@ -2493,7 +2492,6 @@ img {
   object-fit: cover;
   object-position: center;
   display: block;
-  /* removed transition for hero image swap */
 }
 
 .hero-img-current {
@@ -2516,21 +2514,6 @@ img {
   transform: none;
 }
 
-/* soften initial render: both text + image card fade in together (disabled) */
-.hero-img-card {
-  opacity: 1;
-  transform: none;
-  transition: none;
-}
-
-.hero-img-card.hero-loaded {
-  opacity: 1;
-  transform: none;
-}
-
-.hero-img {
-  /* keep existing rule working */
-}
 
 /* ─────────────────────────────────────────────────
    SCROLL ANIMATIONS
